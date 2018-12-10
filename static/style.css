@@ -1,0 +1,33 @@
+*{
+    font-size: 1.2rem;
+    font-family: 'Gloria Hallelujah', cursive;
+
+}
+html,body{
+    height: 100%;
+    background-color: aqua;
+}
+.center_container{
+    height: 100%;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form_group{
+    margin: 13px;
+}
+.form_group > label{
+    display: inline-block;
+    width: 124px;
+}
+
+#btn_play{
+    float: right;
+    margin-right: 12px;
+    background-color: rgb(255, 0, 0);
+    padding: 4px 8px 4px 8px;
+    border-radius: 6px;
+}
