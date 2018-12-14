@@ -22,10 +22,10 @@ def eva(a,b,op):
     elif op == '*':
         r = a*b
     elif op == '/':
-        if a == 0 or b == 0:
-            print("vo nghiem")
-        else:
-            r = a/b
+        # if a == 0 or b == 0:
+        #     print("vo nghiem")
+        # else:
+        r = a/b
     else:
         print("Unsupported operator")
     return r
