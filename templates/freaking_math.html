@@ -10,16 +10,21 @@
 <body>
     
     <div class="center_container">
-        <form action="">
+        <form method="POST">
         <div class="form_group">
-            <h1>Freaking Math</h1>
-            <h3>Username</h3>
-            <input type="text" name="username">
+            <h1>Freaking Math</h1><hr>
+            
+            <div>
+                <h3>Your Name</h3>
+                <input type="text" name="name" required>
+            </div><hr>
+            <h3>Choose level</h3>
+            <div>
+                <button id="btn_level" name="easy">Easy</button>
+                <button id="btn_level" name="normal">Normal</button>
+                <button id="btn_level" name="hard">Hard</button>
+            </div>
         </div>
-        <div>
-            <button id="btn_play">PLAY</button>
-        </div>
-        
     </form>
     </div>
 </body>

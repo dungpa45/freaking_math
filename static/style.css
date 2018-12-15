@@ -31,3 +31,17 @@ html,body{
     padding: 4px 8px 4px 8px;
     border-radius: 6px;
 }
+#btn_play{
+    float: right;
+    margin-right: 12px;
+    background-color: rgb(255, 0, 0);
+    padding: 4px 8px 4px 8px;
+    border-radius: 6px;
+}
+#btn_level{
+    float: right;
+    margin-right: 12px;
+    background-color: rgb(200, 255, 0);
+    padding: 4px 8px 4px 8px;
+    border-radius: 6px;
+}

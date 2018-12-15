@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Freaking Math</title>
+</head>
+<body>
+    
+        <form action="">
+            <div class="form-group">
+                <h1>F Math</h1>
+                <h2 id="level" level='{{ mode }}'>{{ mode }} mode</h2>               
+            </div>
+            
+        </form>
+        <div class="math" style="display:inline-block;">
+            <span id="num1"></span>
+            <span id="operator"></span>
+            <span id="num2"></span>
+            <span> = </span>
+            <span id="answer"></span>
+        </div>
+        <hr>
+        <!--end of answer-->
+        <button onclick="New()">New</button>
+    <script>
+        function New() {
+            num1 = document.getElementById("num1");
+            num2 = document.getElementById("num2");
+            rnum1 = Math.floor((Math.random() * 25) + 1);
+            rnum2 = Math.floor((Math.random() * 25) + 1);
+            num1.innerHTML = rnum1
+            num2.innerHTML = rnum2
+
+            var operators = [{
+                sign: "+",
+                method: function (a, b) { return a + b; }
+            }, {
+                sign: "-",
+                method: function (a, b) { return a - b; }
+            }, {
+                sign: "*",
+                method: function (a, b) { return a * b; }
+            }, {
+                sign: "/",
+                method: function (a, b) { return a / b; }
+            }];
+
+            var selectedOperator = Math.floor(Math.random() * operators.length);
+
+            operator.innerHTML = operators[selectedOperator].sign                  //this will give you the sign
+            answer.innerHTML = operators[selectedOperator].method(rnum1, rnum2)
+        }
+        
+
+        
+        // let level = $('#level');
+        // if (level.attr('level') === 'EASY') {
+        //     let x, y = Math.floor(Math.random() * (25 - 0 + 1)) + 0;
+        //     let err = Math.floor(Math.random() * (2 - -2 + 1)) + (0);
+        //     o = choice(["+", "-", "*", "/"])
+        //     r = eva(x, y, o) + err
+
+        //     return x, y, o, r, err
+        // } else if (level.attr('level') === 'NORMAL') {
+
+        // } else if (level.attr('level') === 'HARD')  {
+
+        // };
+    </script>
+    <h3></h3>
+</body>
+</html>
