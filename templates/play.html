@@ -8,34 +8,82 @@
     <title>Freaking Math</title>
 </head>
 <body>
-    
-        <form action="">
-            <div class="form-group">
-                <h1>F Math</h1>
-                <h2 id="level" level='{{ mode }}'>{{ mode }} mode</h2>               
-            </div>
-            
-        </form>
-        <div class="math" style="display:inline-block;">
-            <span id="num1"></span>
-            <span id="operator"></span>
-            <span id="num2"></span>
-            <span> = </span>
-            <span id="answer"></span>
+    <form action="">
+        <div class="form-group">
+            <h1>F Math</h1>
+            <h2 id="level" level='{{ mode }}'>{{ mode }} mode</h2>               
         </div>
-        <hr>
-        <!--end of answer-->
-        <button onclick="New()">New</button>
+        
+    </form>
+    <div class="math" style="display:inline-block;">
+        <span id="num1"></span>
+        <span id="operator"></span>
+        <span id="num2"></span>
+        <span> = </span>
+        <span id="answer"></span>
+    </div>
+    <hr>
+    <div>
+        <span>POINT : </span>
+        <span id="point"></span>
+    </div>
+    <div>
+        <span>TIME : </span>
+        <span id="time"></span>
+    </div>
+    <!--end of answer-->
+    <button id="true" onclick="nextQuestion_true()">True</button>
+    <button id="false" onclick="nextQuestion_false()">False</button>
     <script>
-        function New() {
-            num1 = document.getElementById("num1");
-            num2 = document.getElementById("num2");
-            rnum1 = Math.floor((Math.random() * 25) + 1);
-            rnum2 = Math.floor((Math.random() * 25) + 1);
+        
+        const renderQuiz = () => {
+            
+            let rnum1 = Math.floor((Math.random() * 25) + 1);
+            let rnum2 = Math.floor((Math.random() * 25) + 1);
+            let op = getOperator();
+            
+            // let err = Math.floor(Math.random() * 5) + (-2);
+            var err1 = [0, 10]
+            var err2 = [0, 0.1]
+            if (level.attr('level') === 'EASY') {
+                err = Math.floor(Math.random() * 5) + (-2);
+            } else if (level.attr('level') === 'NORMAL') {
+                if (op === '*') {
+                    // random 0 or 10
+                    err = err1[Math.floor(Math.random() * err1.length)];
+
+                } else if (op === '/') {
+                    // random 0 or 0.1
+                    err = err2[Math.floor(Math.random() * err2.length)];
+                } else {
+                    err = Math.floor(Math.random() * 5) + (-2);
+                }
+
+            } else if (level.attr('level') === 'HARD') {
+                if (op === '/') {
+                    // random 0 or 0.1
+                    err = err2[Math.floor(Math.random() * err2.length)];
+                } else {
+                    // random 0 or 10
+                    err = err1[Math.floor(Math.random() * err1.length)];
+                }
+            };
+            let result = eva(rnum1, rnum2, op) + err;
+            console.log("ERR: " + err);
+            // console.log("NUM1: " + rnum1);
+            // console.log("NUM2: " + rnum2);            
+            // console.log("RESULT: " + result);
+            // console.log("OP: " + op);
             num1.innerHTML = rnum1
             num2.innerHTML = rnum2
+            operator.innerHTML = op
+            answer.innerHTML = result
+            point.innerHTML = diem
+        }
 
-            var operators = [{
+        const getOperator = () => {
+
+            let operators = [{
                 sign: "+",
                 method: function (a, b) { return a + b; }
             }, {
@@ -49,27 +97,84 @@
                 method: function (a, b) { return a / b; }
             }];
 
-            var selectedOperator = Math.floor(Math.random() * operators.length);
+            let selectedOperator = Math.floor(Math.random() * operators.length);
 
-            operator.innerHTML = operators[selectedOperator].sign                  //this will give you the sign
-            answer.innerHTML = operators[selectedOperator].method(rnum1, rnum2)
+            return operators[selectedOperator].sign                  //this will give you the sign
+            // answer.innerHTML = operators[selectedOperator].method(rnum1, rnum2)
+        }
+
+        const eva = (a, b, op) => {
+            let r = 0;
+            if (op === '+')
+                r = a + b
+            else if (op === '-')
+                r = a - b
+            else if (op === '*')
+                r = a * b
+            else if (op === '/')
+                r = a / b
+            return r
         }
         
+        
+        let level = $('#level');
+
+        function nextQuestion_true(){
+            if(err == 0){
+                console.log(diem);
+                console.log("bingo");
+                renderQuiz();
+                diem++;
+                coutdown();
+            }
+            else{
+                console.log("fail");
+                window.location.href = "http://127.0.0.1:5000/highscore";
+                
+            }
+        }
+        function nextQuestion_false(){
+            if(err != 0){
+                console.log(diem);
+                console.log("bingo");
+                renderQuiz();
+                diem++;
+                coutdown();
+            }
+            else{
+                console.log("fail");
+                window.location.href = "http://127.0.0.1:5000/highscore";
+            }
+        }
+        
+        function startTimer(duration, display) {
+            var timer = duration, seconds;
+            setInterval(function () {
+                seconds = parseInt(timer % 60, 10);
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = seconds;
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+            setTimeout(function () {
+                window.location.href = "http://127.0.0.1:5000/highscore";
+            }, 11000);
+        }
+        function coutdown() {
+            console.log(123);
+            var tensecond = 10,
+                display = document.querySelector('#time');
+                log(tensecond);
+            startTimer(tensecond, display);
+        }
+        
+        var diem = 0;
+        renderQuiz();
+        diem = 1;
+        coutdown();
 
         
-        // let level = $('#level');
-        // if (level.attr('level') === 'EASY') {
-        //     let x, y = Math.floor(Math.random() * (25 - 0 + 1)) + 0;
-        //     let err = Math.floor(Math.random() * (2 - -2 + 1)) + (0);
-        //     o = choice(["+", "-", "*", "/"])
-        //     r = eva(x, y, o) + err
-
-        //     return x, y, o, r, err
-        // } else if (level.attr('level') === 'NORMAL') {
-
-        // } else if (level.attr('level') === 'HARD')  {
-
-        // };
     </script>
     <h3></h3>
 </body>

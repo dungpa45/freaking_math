@@ -21,12 +21,11 @@ def home():
       return render_template("play.html", mode = 'NORMAL')
     elif 'hard' in form:
       return render_template("play.html", mode = 'HARD')
-    # l = form["level"]
-    # n = form["name"]
-    # if level is None:
-    #   return "You must choice level"
-    # # elif level
-    # if n == 'easy'
+    
+
+
+
+    
 
 @app.route("/play")
 def play():

@@ -7,14 +7,16 @@
     <title>HighScore</title>
 </head>
 <body>
+    <h1>GAME OVER!</h1>
     
-        <h1>HIGHSCORE</h1>
-        <div>
-            <ol>
-                {% for i in hs_list %}
-                    <li>{{ i.level }}, {{ i.name }}, {{ i.diem }}</li>
-                {% endfor %}
-            </ol>
-        </div>
+    <hr>
+    <h1>HIGHSCORE</h1>
+    <div>
+        <ol>
+            {% for i in hs_list %}
+                <li>{{ i.level }}, {{ i.name }}, {{ i.diem }}</li>
+            {% endfor %}
+        </ol>
+    </div>
 </body>
 </html>
