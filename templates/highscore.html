@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>HighScore</title>
 </head>
 <body>
-    <h1>GAME OVER!</h1>
-    
+    <div class="form-group">
+        <h1>GAME OVER!</h1>
+        <h2 id="point" point='{{ point }}'>Your score: {{ point }}</h2>
+    </div>
     <hr>
     <h1>HIGHSCORE</h1>
     <div>
         <ol>
             {% for i in hs_list|sort(attribute='diem',reverse=True) %}
-                <li id="demo">{{ i.level }}, {{ i.name }}, {{ i.diem }}</li>
+                <li id="li_highscore"><span>{{ i.diem }}</span> __ <span>{{ i.name }}</span> __ <span>{{ i.level }}</span> </li>
                 
             {% endfor %}
         </ol>

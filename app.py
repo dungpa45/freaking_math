@@ -7,7 +7,7 @@ mlab.connect()
 app = Flask(__name__)
 
 
-@app.route("/home",methods=["GET","POST"])
+@app.route("/",methods=["GET","POST"])
 def home():
   if request.method == "GET":
     return render_template("freaking_math.html")
@@ -36,18 +36,25 @@ def play(mode, name):
     point = form['point']
     h = Highscore(name=name,level=mode,diem=point)
     h.save()
-    return redirect(url_for('highscore'))
+    return redirect(url_for('highscore', point = point))
 
 
-@app.route("/highscore", methods=['GET', 'POST'])
-def highscore():
+@app.route("/highscore/<point>", methods=['GET', 'POST'])
+def highscore(point):
+  # if request.method == 'GET':
+  #   # return "abc"
+  #   return render_template("highscore.html", diem=diem)
+  # elif request.method == "POST":
+  #   form = request.form
+  #   diem = form['diem']
+
   # if request.method == 'POST':
   #   print(request.form)
   # return "abc"
-    # print(request.form)
+  # print(request.form)
   hs = Highscore.objects()
-  print(hs)
-  return render_template("highscore.html",hs_list=hs)
+  # print(hs)
+  return render_template("highscore.html", hs_list=hs, point = point)
 
 if __name__ == '__main__':
   app.run(debug=True)
