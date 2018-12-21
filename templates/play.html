@@ -8,13 +8,11 @@
     <title>Freaking Math</title>
 </head>
 <body>
-    <form action="">
         <div class="form-group">
             <h1>F Math</h1>
-            <h2 id="level" level='{{ mode }}'>{{ mode }} mode</h2>               
+            <h2 id="level" level='{{ mode }}'>{{ mode }}</h2>               
         </div>
         
-    </form>
     <div class="math" style="display:inline-block;">
         <span id="num1"></span>
         <span id="operator"></span>
@@ -32,44 +30,55 @@
         <span id="time"></span>
     </div>
     <!--end of answer-->
-    <button id="true" onclick="nextQuestion_true()">True</button>
-    <button id="false" onclick="nextQuestion_false()">False</button>
+    <form method="POST">
+        <input id="save_point" style="display:none" type="text" name="point" value="">
+        <input type="button" id="true" onclick="nextQuestion_true()" value="True">
+        <input type="button" id="false" onclick="nextQuestion_false()" value="False">
+        <input id="btn_submit" style="display:none" type="submit">
+    </form>
     <script>
-        
+        context = {
+            err: 0
+        }
         const renderQuiz = () => {
             
             let rnum1 = Math.floor((Math.random() * 25) + 1);
             let rnum2 = Math.floor((Math.random() * 25) + 1);
             let op = getOperator();
             
-            // let err = Math.floor(Math.random() * 5) + (-2);
+            context.err = Math.floor(Math.random() * 5) + (-2);
             var err1 = [0, 10]
             var err2 = [0, 0.1]
             if (level.attr('level') === 'EASY') {
-                err = Math.floor(Math.random() * 5) + (-2);
+                context.err = Math.floor(Math.random() * 5) + (-2);
             } else if (level.attr('level') === 'NORMAL') {
+                rnum1 = Math.floor((Math.random() * 50) - 25);
+                rnum2 = Math.floor((Math.random() * 50) - 25);
                 if (op === '*') {
                     // random 0 or 10
-                    err = err1[Math.floor(Math.random() * err1.length)];
+                    
+                    context.err = err1[Math.floor(Math.random() * err1.length)];
 
                 } else if (op === '/') {
                     // random 0 or 0.1
-                    err = err2[Math.floor(Math.random() * err2.length)];
+                    context.err = err2[Math.floor(Math.random() * err2.length)];
                 } else {
-                    err = Math.floor(Math.random() * 5) + (-2);
+                    context.err = Math.floor(Math.random() * 5) + (-2);
                 }
 
             } else if (level.attr('level') === 'HARD') {
+                rnum1 = Math.floor((Math.random() * 200) - 100);
+                rnum2 = Math.floor((Math.random() * 200) - 100);
                 if (op === '/') {
                     // random 0 or 0.1
-                    err = err2[Math.floor(Math.random() * err2.length)];
+                    context.err = err2[Math.floor(Math.random() * err2.length)];
                 } else {
                     // random 0 or 10
-                    err = err1[Math.floor(Math.random() * err1.length)];
+                    context.err = err1[Math.floor(Math.random() * err1.length)];
                 }
             };
-            let result = eva(rnum1, rnum2, op) + err;
-            console.log("ERR: " + err);
+            let result = eva(rnum1, rnum2, op) + context.err;
+            console.log("ERR: " + context.err);
             // console.log("NUM1: " + rnum1);
             // console.log("NUM2: " + rnum2);            
             // console.log("RESULT: " + result);
@@ -118,62 +127,91 @@
         
         
         let level = $('#level');
+        var interval;
+        function startTimer(duration, display) {
+            var timer = duration, seconds;
+            if(interval !== null){
+                clearInterval(interval);
+                
+            }
 
+            interval = setInterval(function () {
+            seconds = parseInt(timer % 60, 10);
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.textContent = seconds;
+
+            if (--timer < 0) {
+                timer = duration;                                        
+                }
+            if (timer == 0){
+                document.getElementById('save_point').value = diem;
+                // disable_all();
+                $('#btn_submit').click();
+                // window.location.href = "http://127.0.0.1:5000/highscore";
+            }
+            }, 1000);
+            
+            
+        }
+        function countdown() {
+            var tensecond = 10,
+                display = document.querySelector('#time');
+
+            startTimer(tensecond, display);
+
+        }
         function nextQuestion_true(){
-            if(err == 0){
-                console.log(diem);
+            if(context.err == 0){
+                
                 console.log("bingo");
-                renderQuiz();
                 diem++;
-                coutdown();
+                console.log(diem);
+                countdown();
+                renderQuiz();
+                
+                
             }
             else{
+                console.log(diem);
                 console.log("fail");
-                window.location.href = "http://127.0.0.1:5000/highscore";
                 
+                document.getElementById('save_point').value = diem;
+                // disable_all();
+                $('#btn_submit').click();
+                // $.post(
+                //     'http://127.0.0.1:5000/highscore'
+                // )
+                // window.location.href = "http://127.0.0.1:5000/highscore";
             }
         }
         function nextQuestion_false(){
-            if(err != 0){
-                console.log(diem);
+            if(context.err != 0){
+            
                 console.log("bingo");
-                renderQuiz();
                 diem++;
-                coutdown();
+                console.log(diem);
+                countdown();
+                renderQuiz();
+                
+                
             }
             else{
+                console.log(diem);
                 console.log("fail");
-                window.location.href = "http://127.0.0.1:5000/highscore";
+                // disable_all();
+                document.getElementById('save_point').value = diem;
+                $('#btn_submit').click();
+                // window.location.href = "http://127.0.0.1:5000/highscore";
+                
             }
         }
-        
-        function startTimer(duration, display) {
-            var timer = duration, seconds;
-            setInterval(function () {
-                seconds = parseInt(timer % 60, 10);
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-                display.textContent = seconds;
-                if (--timer < 0) {
-                    timer = duration;
-                }
-            }, 1000);
-            setTimeout(function () {
-                window.location.href = "http://127.0.0.1:5000/highscore";
-            }, 11000);
-        }
-        function coutdown() {
-            console.log(123);
-            var tensecond = 10,
-                display = document.querySelector('#time');
-                log(tensecond);
-            startTimer(tensecond, display);
-        }
+        // function disable_all() {
+        //     $(document).find('input').attr('disabled', 'true');
+        // }
         
         var diem = 0;
         renderQuiz();
-        diem = 1;
-        coutdown();
-
+        countdown();
         
     </script>
     <h3></h3>
