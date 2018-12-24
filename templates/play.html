@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Freaking Math</title>
 </head>
 <body>
-        <div class="form-group">
+        <div class="fplayground">
             <h1>F Math</h1>
-            <h2 id="level" level='{{ mode }}'>{{ mode }}</h2>      
+            <div>
+                <h2 id="level" level='{{ mode }}'>Level: {{ mode }}</h2>      
+            </div>
         </div>
         
-    <div class="math" style="display:inline-block;">
+    <div class="equation" style="display:inline-block;">
         <span id="num1"></span>
         <span id="operator"></span>
         <span id="num2"></span>
@@ -21,19 +24,19 @@
         <span id="answer"></span>
     </div>
     <hr>
-    <div>
+    <div class="point">
         <span>POINT : </span>
         <span id="point"></span>
     </div>
-    <div>
+    <div class="time">
         <span>TIME : </span>
         <span id="time"></span>
     </div>
     <!--end of answer-->
     <form method="POST">
         <input id="save_point" style="display:none" type="text" name="point" value="">
-        <input type="button" id="true" onclick="nextQuestion_true()" value="True">
-        <input type="button" id="false" onclick="nextQuestion_false()" value="False">
+        <input class="choice-correct" type="button" id="true" onclick="nextQuestion_true()" value="True">
+        <input class="choice-wrong" type="button" id="false" onclick="nextQuestion_false()" value="False">
         <input id="btn_submit" style="display:none" type="submit">
     </form>
     <script>
@@ -131,8 +134,7 @@
         function startTimer(duration, display) {
             var timer = duration, seconds;
             if(interval !== null){
-                clearInterval(interval);
-                
+                clearInterval(interval);             
             }
 
             interval = setInterval(function () {
@@ -162,19 +164,16 @@
         }
         function nextQuestion_true(){
             if(context.err == 0){
-                
                 console.log("bingo");
                 diem++;
                 console.log(diem);
                 countdown();
                 renderQuiz();
                 
-                
             }
             else{
                 console.log(diem);
                 console.log("fail");
-                
                 document.getElementById('save_point').value = diem;
                 // disable_all();
                 $('#btn_submit').click();
@@ -191,8 +190,7 @@
                 console.log(diem);
                 countdown();
                 renderQuiz();
-                
-                
+               
             }
             else{
                 console.log(diem);
