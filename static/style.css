@@ -32,6 +32,29 @@ html,body{
     border-radius: 6px;
 }
 
+.endgame {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    
+}
+.endgame > h1{
+    font-size: 80px;
+}
+#point{
+    font-size: 60px;
+}
+.highscore {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 255, 0);
+}
 /* html {
     box-sizing: border-box;
 }
@@ -58,4 +81,4 @@ body {
 }
 /*
  * Two cards to choose from: check, cross
- */ */
+ */ 
