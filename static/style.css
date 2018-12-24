@@ -1,4 +1,38 @@
-html {
+*{
+    font-size: 1.2rem;
+    font-family: 'Gloria Hallelujah', cursive;
+
+}
+html,body{
+    height: 100%;
+    background-color: aqua;
+}
+.center_container{
+    height: 100%;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form_group{
+    margin: 13px;
+}
+.form_group > label{
+    display: inline-block;
+    width: 124px;
+}
+
+#btn_level{
+    float: right;
+    margin-right: 12px;
+    background-color: rgb(200, 255, 0);
+    padding: 4px 8px 4px 8px;
+    border-radius: 6px;
+}
+
+/* html {
     box-sizing: border-box;
 }
 
@@ -14,33 +48,7 @@ body {
     font-family: 'Sunflower', sans-serif;
 }
 
-
-/*
- * Two cards to choose from: check, cross
- */
-.choice {
-    height: 37%;
-    margin-left: 5px;
-    margin-right: 5px;
-    display: flex;
-    justify-content: space-between;
-}
-
-
-.choice-correct {
-    font-size: 20px;
-    background: #3498DB;
-}
-
-.choice-wrong {
-    font-size: 20px;
-    background: #E74C3C;
-}
-
-/*
- * Game start modal
- */
- .center_container{
+.center_container{
     height: 100%;
     display: flex;
     flex-flow: row;
@@ -48,52 +56,6 @@ body {
     align-items: center;
     background-color: #E74C3C
 }
-
-#btn_play{
-    float: right;
-    margin-right: 12px;
-    background-color: rgb(255, 0, 0);
-    padding: 4px 8px 4px 8px;
-    border-radius: 6px;
-}
-#btn_play{
-    float: right;
-    margin-right: 12px;
-    background-color: rgb(255, 0, 0);
-    padding: 4px 8px 4px 8px;
-    border-radius: 6px;
-}
-
-.playground {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(255, 255, 0);
-}
-.equation {
-    font-size: 80px;
-}
-.time {
-    font-size: 40px;
-}
-.point {
-    font-size: 40px;
-}
-.endgame {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(0, 255, 0);
-}
-.highscore {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(0, 255, 0);
-}
+/*
+ * Two cards to choose from: check, cross
+ */ */

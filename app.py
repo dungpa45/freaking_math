@@ -56,5 +56,12 @@ def highscore(point):
   # print(hs)
   return render_template("highscore.html", hs_list=hs, point = point)
 
+# hs = Highscore.objects(name__istartswith="z")
+# print(len(hs))
+# for r in hs:
+#     print(r.name)
+# hs.delete()
+
+
 if __name__ == '__main__':
   app.run(debug=True)
