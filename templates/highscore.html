@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>HighScore</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="endgame">
-        <h1>GAME OVER!</h1>
-        <h2 id="point" point='{{ point }}'>Your score: {{ point }}</h2>
+    <div class="endgame_container">
+        <h1>Game Over!</h1>
+        <h2>Your Score: {{ point }}</h2>
+        <h1>High Scores</h1>
+        <div class="highscore_table_container">
+            <table class="highscore_table">
+                <thead>
+                    <tr>
+                        <th>Score</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for score in hs_list %}
+                        <tr>
+                            <td>{{ score.diem }}</td>
+                            <td>{{ score.name }}</td>
+                            <td>{{ score.level }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button onclick="window.location.href='{{ url_for('home') }}'">Try Again</button>
     </div>
-    <hr>
-    <h1>HIGHSCORE</h1>
-    <div>
-        <ol>
-            {% for i in hs_list|sort(attribute='diem',reverse=True) %}
-                <li id="li_highscore"><span>{{ i.diem }}</span> __ <span>{{ i.name }}</span> __ <span>{{ i.level }}</span> </li>
-                
-            {% endfor %}
-        </ol>
-    </div>
-
-    
 </body>
 </html>

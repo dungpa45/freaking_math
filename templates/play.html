@@ -3,216 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static',filename='style_play.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Freaking Math</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_play.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-    <!-- <div class="center_container"> -->
     <div class="playground">
-            <div>
-                <h1 id="level" level='{{ mode }}'>Level: {{ mode }}</h1><hr>      
+        <div class="status">
+            <h1>Level: {{ mode }}</h1>
+            <div class="equation">
+                <span id="num1"></span>
+                <span id="operator"></span>
+                <span id="num2"></span>
+                <span>=</span>
+                <span id="answer"></span>
             </div>
-        
-            
-        <div class="equation" style="display:inline-block;">
-            <span id="num1"></span>
-            <span id="operator"></span>
-            <span id="num2"></span>
-            <span> = </span>
-            <span id="answer"></span>
+            <div class="scoreboard">
+                <div>Points: <span id="point"></span></div>
+                <div>Time: <span id="time"></span></div>
+            </div>
         </div>
-        
-        <div class="point">
-            <hr>
-            <span>POINT : </span>
-            <span id="point"></span>
-        </div>
-        <div class="time">
-            <span>TIME : </span>
-            <span id="time"></span>
-        </div>
-        <!--end of answer-->
         <form method="POST">
-            <input id="save_point" style="display:none" type="text" name="point" value="">
-            <input class="choice-correct" type="button" id="true" onclick="nextQuestion_true()" value="True">
-            <input class="choice-wrong" type="button" id="false" onclick="nextQuestion_false()" value="False">
-            <input id="btn_submit" style="display:none" type="submit">
+            <input type="hidden" id="save_point" name="point" value="">
+            <button type="button" id="true" onclick="nextQuestion(true)">True</button>
+            <button type="button" id="false" onclick="nextQuestion(false)">False</button>
+            <button type="submit" id="btn_submit" style="display: none;"></button>
         </form>
     </div>
-    <script>
-        context = {
-            err: 0
-        }
-        const renderQuiz = () => {
-            
-            let rnum1 = Math.floor((Math.random() * 25) + 1);
-            let rnum2 = Math.floor((Math.random() * 25) + 1);
-            let op = getOperator();
-            
-            context.err = Math.floor(Math.random() * 5) + (-2);
-            var err1 = [0, 10]
-            var err2 = [0, 0.1]
-            if (level.attr('level') === 'EASY') {
-                context.err = Math.floor(Math.random() * 5) + (-2);
-            } else if (level.attr('level') === 'NORMAL') {
-                rnum1 = Math.floor((Math.random() * 50) - 25);
-                rnum2 = Math.floor((Math.random() * 50) - 25);
-                if (op === '*') {
-                    // random 0 or 10
-                    
-                    context.err = err1[Math.floor(Math.random() * err1.length)];
-
-                } else if (op === '/') {
-                    // random 0 or 0.1
-                    context.err = err2[Math.floor(Math.random() * err2.length)];
-                } else {
-                    context.err = Math.floor(Math.random() * 5) + (-2);
-                }
-
-            } else if (level.attr('level') === 'HARD') {
-                rnum1 = Math.floor((Math.random() * 200) - 100);
-                rnum2 = Math.floor((Math.random() * 200) - 100);
-                if (op === '/') {
-                    // random 0 or 0.1
-                    context.err = err2[Math.floor(Math.random() * err2.length)];
-                } else {
-                    // random 0 or 10
-                    context.err = err1[Math.floor(Math.random() * err1.length)];
-                }
-            };
-            let result = eva(rnum1, rnum2, op) + context.err;
-            console.log("ERR: " + context.err);
-            // console.log("NUM1: " + rnum1);
-            // console.log("NUM2: " + rnum2);            
-            // console.log("RESULT: " + result);
-            // console.log("OP: " + op);
-            num1.innerHTML = rnum1
-            num2.innerHTML = rnum2
-            operator.innerHTML = op
-            answer.innerHTML = result
-            point.innerHTML = diem
-        }
-
-        const getOperator = () => {
-
-            let operators = [{
-                sign: "+",
-                method: function (a, b) { return a + b; }
-            }, {
-                sign: "-",
-                method: function (a, b) { return a - b; }
-            }, {
-                sign: "*",
-                method: function (a, b) { return a * b; }
-            }, {
-                sign: "/",
-                method: function (a, b) { return a / b; }
-            }];
-
-            let selectedOperator = Math.floor(Math.random() * operators.length);
-
-            return operators[selectedOperator].sign                  //this will give you the sign
-            // answer.innerHTML = operators[selectedOperator].method(rnum1, rnum2)
-        }
-
-        const eva = (a, b, op) => {
-            let r = 0;
-            if (op === '+')
-                r = a + b
-            else if (op === '-')
-                r = a - b
-            else if (op === '*')
-                r = a * b
-            else if (op === '/')
-                r = a / b
-            return r
-        }
-        
-        
-        let level = $('#level');
-        var interval;
-        function startTimer(duration, display) {
-            var timer = duration, seconds;
-            if(interval !== null){
-                clearInterval(interval);             
-            }
-
-            interval = setInterval(function () {
-            seconds = parseInt(timer % 60, 10);
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            display.textContent = seconds;
-
-            if (--timer < 0) {
-                timer = duration;                                        
-                }
-            if (timer == 0){
-                document.getElementById('save_point').value = diem;
-                // disable_all();
-                $('#btn_submit').click();
-                // window.location.href = "http://127.0.0.1:5000/highscore";
-            }
-            }, 1000);
-            
-            
-        }
-        function countdown() {
-            var tensecond = 10,
-                display = document.querySelector('#time');
-
-            startTimer(tensecond, display);
-
-        }
-        function nextQuestion_true(){
-            if(context.err == 0){
-                console.log("bingo");
-                diem++;
-                console.log(diem);
-                countdown();
-                renderQuiz();
-                
-            }
-            else{
-                console.log(diem);
-                console.log("fail");
-                document.getElementById('save_point').value = diem;
-                // disable_all();
-                $('#btn_submit').click();
-                // $.post(
-                //     'http://127.0.0.1:5000/highscore'
-                // 
-            }
-        }
-        function nextQuestion_false(){
-            if(context.err != 0){
-            
-                console.log("bingo");
-                diem++;
-                console.log(diem);
-                countdown();
-                renderQuiz();
-               
-            }
-            else{
-                console.log(diem);
-                console.log("fail");
-                // disable_all();
-                document.getElementById('save_point').value = diem;
-                $('#btn_submit').click();
-                // window.location.href = "http://127.0.0.1:5000/highscore";
-                
-            }
-        }
-        // function disable_all() {
-        //     $(document).find('input').attr('disabled', 'true');
-        // }
-        
-        var diem = 0;
-        renderQuiz();
-        countdown();
-        
-    </script>
-    <h3></h3>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
